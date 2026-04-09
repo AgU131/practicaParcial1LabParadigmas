@@ -3,7 +3,7 @@ object Main {
     type Post = (String, String, String, String, Int)  // (subreddit, title, selftext, formattedDate, score)
 
     def getScore(p: Post): Int = p.match {
-        case (_, _, _, _, score) => score
+        
     }
     def isHighScore(p: Post): Boolean = 
         getScore(p) > 100
@@ -14,7 +14,9 @@ object Main {
     def titles(posts: List[Post]): List[String] =
         posts.map { case (_, title, _, _, _) => title }
     def highScorePosts(posts: List[Post]): List[Post] =
-
+        post.filter { case (_, _, _, _, score) =>
+            score > 100
+        }
 }
 
 
