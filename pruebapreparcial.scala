@@ -15,7 +15,7 @@ object Main {
     def titles(posts: List[Post]): List[String] =
         posts.map { case (_, title, _, _, _) => title }
     def highScorePosts(posts: List[Post]): List[Post] =
-        post.filter { case (_, _, _, _, score) =>
+        posts.filter { case (_, _, _, _, score) =>
             score > 100
         }
     def titlesWithHighScore(posts: List[Post]): List[String] =
@@ -29,12 +29,19 @@ object Main {
         }
 
 // BLOQUE 3 — groupBy
-    def groupBySubreddit(posts: List[Post]): Map[String, List[Post]]
-        posts
-            .groupBy(_._1) { case (subreddit, _, _, _, _) }
+    def groupBySubreddit(posts: List[Post]): Map[String, List[Post]] = 
+        posts.groupBy { case (subreddit, _, _, _, _) => subreddit}
+        // posts.groupBy(_._1)
+
     def countPostsBySubreddit(posts: List[Post]): Map[String, Int]
-    
-    def titlesBySubreddit(posts: List[Post]): Map[String, List[String]]
+        posts
+            .groupBy(_._1)
+            .map { case (subreddit, posts) => (subreddit, posts.length)}
+
+    def titlesBySubreddit(posts: List[Post]): Map[String, List[String]] = 
+        posts
+            .groupBy(_._1)
+            .map { case (_, title, _, _, _) => title}
 
 // BLOQUE 4 — fold (EL MÁS IMPORTANTE)
     def sumScores(posts: List[Post]): Int
