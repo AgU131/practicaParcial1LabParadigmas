@@ -2,7 +2,7 @@ object Main {
 // BLOQUE 1 — Pattern Matching (base del parcial)
     type Post = (String, String, String, String, Int)  // (subreddit, title, selftext, formattedDate, score)
 
-    def getScore(p: Post): Int = p.match {
+    def getScore(p: Post): Int = p match {
         case (_, _, _, _, score) => score
     }
     def isHighScore(p: Post): Boolean = 
@@ -19,13 +19,19 @@ object Main {
             score > 100
         }
     def titlesWithHighScore(posts: List[Post]): List[String] =
-        titles(highScorePosts(posts))
+        posts 
+            .filter { case (_, _, _, _, score) => score > 100 }
+            .map { case (_, title, _, _, _) => title }
+        // titles(highScorePosts(posts))
     def wordsFromPosts(posts: List[Post]): List[String] =
-        
+        posts.flatMap { case (_, title, selftext, _, _) => 
+            (title + " " + selftext).split("\\W+")
+        }
 
 // BLOQUE 3 — groupBy
     def groupBySubreddit(posts: List[Post]): Map[String, List[Post]]
-
+        posts
+            .groupBy(_._1) { case (subreddit, _, _, _, _) }
     def countPostsBySubreddit(posts: List[Post]): Map[String, Int]
     
     def titlesBySubreddit(posts: List[Post]): Map[String, List[String]]
